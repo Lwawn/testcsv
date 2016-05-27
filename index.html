@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CSV to Charts</title>
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+	<script src="js/underscore.js"></script>
+	<script src="js/backbone.js"></script>
+	<script src="js/papaparse.js"></script>
+	<script src="js/canvasjs.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/main.js"></script>
+
+</head>
+<body>
+<div class="container">
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			  <div class="panel panel-default">	
+				  <div class="panel-heading headpanel">
+				  	<h3>Csv to Charts service</h3>
+				  </div>
+				  <div class="panel-body bodypanel">
+				  	<div class="parserblock" id="parser">
+						<input type="file" class="inputfile" id="csv-file" name="files" text="Input a file" />
+						<label class="btn btn-primary center-block mylabel" for="csv-file">Choose a file</label>
+
+						<div class="block" id="error">Please chose file</div>
+						<br>
+
+						<button id="submit-parse" class="btn btn-success center-block">Build</button>
+						<br><br>
+					</div>
+
+					 <div id="chartContainer" class="chart"></div>
+					 <div id="chart2Container" class="chart"></div>
+					 <button class="btn btn-default center-block" id='back'>Back</button>
+				  </div>
+			  </div>
+		</div>
+	</div>
+</div>
+	
+
+</div>	
+		
+</body>
+</html>

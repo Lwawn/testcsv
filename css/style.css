@@ -1,0 +1,33 @@
+body{
+	font-family: 'Tahoma';
+}
+#error{
+	display:none;
+	color:red;
+}
+
+.chart{
+	height: 300px; width: 100%;
+	display:none;
+}
+
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute	z-index: -1;
+}
+.headpanel
+{
+	background-color: #B4FFF7 !important;
+	text-align: center;
+}
+
+.mylabel{
+	width: 30%;
+}
+.block{
+	text-align: center;
+	
+}
