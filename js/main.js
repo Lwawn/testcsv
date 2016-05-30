@@ -16,6 +16,7 @@ var operationalData=new OperationalData;
 
 
 $(function($){
+	var ErrorState=false;
 	var router = Backbone.Router.extend({
 		routes: {
 		    "": "start", 
@@ -34,18 +35,21 @@ $(function($){
 		},
 
 		success: function () {
+			MakeCharts();
 			$("#error").hide();
 			$("#parser").hide();
 			$("#chartContainer").show();
 			$("#chart2Container").show();
 			$("#back").show();
-		  MakeCharts();
-
 		   // console.log("succes in file");
 		},
 
 		error: function () {
+			$("#parser").show();
 		    $("#error").show();
+		    $("#chartContainer").hide();
+			$("#chart2Container").hide();
+			$("#back").hide();
 		   // console.log("error in file");
 		}
 	});
@@ -178,19 +182,25 @@ $(function($){
 	      header: true,
 	      dynamicTyping: true,
 	      complete: function(results) {
-	        data = results;
-	        for(var i=0; i<data.data.length; i++ ){
-		    	
-		    	var r1 = new Record({
-					created_at: data.data[i].created_at.split(" ")[0],
-					time: data.data[i].created_at.split(" ")[1].split(":")[0],
-					summary_status: data.data[i].summary_status,
-					duration: data.data[i].duration
-				});
-		    	operationalData.add(r1);
-		    }
-	      RenderChart();
-	      RenderChart2();
+	      	if (typeof results.data[0].created_at == 'undefined' ||
+	      		typeof results.data[0].summary_status == 'undefined' ||
+	      		typeof results.data[0].duration == 'undefined') {
+	      		controller.navigate("error", true);
+			} else {
+		        data = results;
+		        for(var i=0; i<data.data.length; i++ ){
+			    	
+			    	var r1 = new Record({
+						created_at: data.data[i].created_at.split(" ")[0],
+						time: data.data[i].created_at.split(" ")[1].split(":")[0],
+						summary_status: data.data[i].summary_status,
+						duration: data.data[i].duration
+					});
+			    	operationalData.add(r1);
+			    }
+			    RenderChart();
+			    RenderChart2();
+	 		}	
 	      }
 	    })
   	}
