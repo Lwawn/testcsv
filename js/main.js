@@ -63,16 +63,20 @@ $(function($){
         el: $('body'),
         events:{
             'click button#submit-parse':'check',
-            'click button#back' : 'back'
+            'click button#back' : 'back',
+            "change #csv-file": "fileselected"
         },
         check:function(){
-    		if ($('#parser').find("#csv-file").val() == "") 
+    		if ($('#parser').find("#csv-file").val() == "" || ErrorState) 
         		controller.navigate("error", true);
     		else
         		controller.navigate("success", true);
         },
         back:function(){
         	controller.navigate("",true);
+        },
+        fileselected:function(){
+        	ErrorState=false;
         }
   	});
 
@@ -182,20 +186,23 @@ $(function($){
 	      header: true,
 	      dynamicTyping: true,
 	      complete: function(results) {
-	      	if (typeof results.data[0].created_at == 'undefined' ||
+	      	if (typeof results.data[0].created_at == 'undefined' || 
 	      		typeof results.data[0].summary_status == 'undefined' ||
 	      		typeof results.data[0].duration == 'undefined') {
 	      		controller.navigate("error", true);
+	      		ErrorState=true; //checking the first line of data is valid - then do all othrer operations
 			} else {
 		        data = results;
 		        for(var i=0; i<data.data.length; i++ ){
-			    	
-			    	var r1 = new Record({
-						created_at: data.data[i].created_at.split(" ")[0],
-						time: data.data[i].created_at.split(" ")[1].split(":")[0],
-						summary_status: data.data[i].summary_status,
-						duration: data.data[i].duration
-					});
+		        	if (typeof results.data[i].created_at != 'undefined') { //checking if current line has data
+			    		var r1 = new Record({
+							created_at: data.data[i].created_at.split(" ")[0],
+							time: data.data[i].created_at.split(" ")[1].split(":")[0],
+							summary_status: data.data[i].summary_status,
+							duration: data.data[i].duration
+					
+						});
+					}
 			    	operationalData.add(r1);
 			    }
 			    RenderChart();
